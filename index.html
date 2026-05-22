@@ -219,23 +219,26 @@
       <div style="font-family:var(--body);color:rgba(245,230,200,.5);font-size:clamp(12px,1.6vw,16px);font-style:italic;letter-spacing:.1em">Combien de photos souhaitez-vous ?</div>
     </div>
     
-    <!-- Cartes photos - avec aperçu en canvas -->
-    <div style="display:flex;gap:24px;align-items:flex-end;justify-content:center;width:100%;min-height:320px">
+    <!-- Cartes photos - sélectionnée = aperçu complet tirage -->
+    <div style="display:flex;gap:20px;align-items:flex-end;justify-content:center;width:100%;min-height:340px">
       <button onclick="selectCount(1)" id="card-1" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;transition:all .3s;background:rgba(201,169,110,.04);border:2.5px solid rgba(201,169,110,.6);border-radius:6px;padding:14px;width:130px;box-shadow:0 4px 16px rgba(0,0,0,.4);transform:scale(1)">
-        <div id="card-1-content" style="width:100px;height:120px;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:all .3s">
-          <canvas id="canvas-preview-1" style="max-width:100%;max-height:100%;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.6)"></canvas>
+        <div id="preview-1" style="width:110px;height:140px;background:#ffffff;border-radius:2px;box-shadow:0 6px 24px rgba(0,0,0,.6);padding:6px;display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;overflow:hidden;transition:all .3s">
+          <div style="width:100%;height:125px;background:linear-gradient(135deg,#1a1208,#2d1f0a);border-radius:1px;display:flex;align-items:center;justify-content:center;color:rgba(201,169,110,.15);font-size:20px">📷</div>
+          <div id="footer-1" style="height:12px;width:100%;display:flex;align-items:center;justify-content:center;font-size:5px;color:#888;font-family:Georgia,serif;letter-spacing:.1em;text-transform:uppercase;overflow:hidden;white-space:nowrap"></div>
         </div>
-        <div style="text-align:center">
+        <div style="text-align:center;transition:all .2s">
           <div style="font-family:var(--serif);color:var(--cream);font-size:13px;font-weight:700">1 photo</div>
           <div style="font-family:var(--body);color:rgba(201,169,110,.6);font-size:11px;font-style:italic;margin-top:3px">Portrait unique</div>
         </div>
       </button>
 
       <button onclick="selectCount(2)" id="card-2" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;transition:all .3s;background:rgba(201,169,110,.04);border:2.5px solid rgba(201,169,110,.6);border-radius:6px;padding:14px;width:130px;box-shadow:0 4px 16px rgba(0,0,0,.4);transform:scale(1)">
-        <div id="card-2-content" style="width:100px;height:120px;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:all .3s">
-          <canvas id="canvas-preview-2" style="max-width:100%;max-height:100%;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.6)"></canvas>
+        <div id="preview-2" style="width:110px;height:140px;background:#ffffff;border-radius:2px;box-shadow:0 6px 24px rgba(0,0,0,.6);padding:6px;display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:flex-start;overflow:hidden;transition:all .3s">
+          <div style="width:100%;height:60px;background:linear-gradient(135deg,#1a1208,#2d1f0a);border-radius:1px;display:flex;align-items:center;justify-content:center;color:rgba(201,169,110,.15);font-size:16px">📷</div>
+          <div style="width:100%;height:60px;background:linear-gradient(135deg,#0a1520,#0d2535);border-radius:1px;display:flex;align-items:center;justify-content:center;color:rgba(201,169,110,.15);font-size:16px">📷</div>
+          <div id="footer-2" style="height:10px;width:100%;display:flex;align-items:center;justify-content:center;font-size:4px;color:#888;font-family:Georgia,serif;letter-spacing:.1em;text-transform:uppercase;overflow:hidden;white-space:nowrap"></div>
         </div>
-        <div style="text-align:center">
+        <div style="text-align:center;transition:all .2s">
           <div style="font-family:var(--serif);color:var(--cream);font-size:13px;font-weight:700">2 photos</div>
           <div style="font-family:var(--body);color:rgba(201,169,110,.6);font-size:11px;font-style:italic;margin-top:3px">Bandeau souvenir</div>
         </div>
@@ -440,9 +443,9 @@ function showScreen(name) {
   // Start inactivity only on welcome
   if (name === 'welcome') startInactivityTimer();
   else stopInactivityTimer();
-  // Draw previews when showing select-count
+  // Update card UI when showing select-count
   if (name === 'select-count') {
-    setTimeout(() => { drawPreview(1); drawPreview(2); }, 100);
+    setTimeout(() => { updateCardUI(); }, 100);
   }
 }
 
@@ -577,63 +580,39 @@ function selectCount(n) {
 function updateCardUI() {
   [1, 2].forEach(n => {
     const card = document.getElementById('card-' + n);
-    const content = document.getElementById('card-' + n + '-content');
+    const preview = document.getElementById('preview-' + n);
+    const footer = document.getElementById('footer-' + n);
     const isSelected = state.photoCount === n;
-    if (card) {
+    
+    if (card && preview) {
+      // Card grows
       card.style.background = isSelected ? 'rgba(201,169,110,.1)' : 'rgba(201,169,110,.04)';
       card.style.border = `2.5px solid ${isSelected ? 'var(--amber)' : 'rgba(201,169,110,.6)'}`;
       card.style.boxShadow = isSelected ? '0 12px 40px rgba(201,169,110,.2)' : '0 4px 16px rgba(0,0,0,.4)';
-      card.style.transform = isSelected ? 'scale(1.15) translateY(-8px)' : 'scale(1)';
-      card.style.width = isSelected ? '180px' : '130px';
-      card.style.padding = isSelected ? '16px' : '14px';
+      card.style.transform = isSelected ? 'scale(1.12) translateY(-6px)' : 'scale(1)';
+      card.style.width = isSelected ? '160px' : '130px';
+      card.style.gap = isSelected ? '14px' : '12px';
       
-      // Canvas grows inside
-      if (content) {
-        content.style.width = isSelected ? '150px' : '100px';
-        content.style.height = isSelected ? '180px' : '120px';
+      // Preview grows inside card
+      preview.style.width = isSelected ? '140px' : '110px';
+      preview.style.height = isSelected ? '170px' : '140px';
+      
+      if (footer) {
+        footer.style.fontSize = isSelected ? '6px' : '5px';
+        footer.style.height = isSelected ? '14px' : '12px';
+        updateFooterText(n);
       }
     }
   });
-  drawPreview(1);
-  drawPreview(2);
 }
 
-function drawPreview(n) {
-  const canvas = document.getElementById('canvas-preview-' + n);
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  
-  const W = 120;
-  const photoH = n === 1 ? 140 : 80;
-  const totalH = photoH * n + 4 * (n + 1) + 16;
-  
-  canvas.width = W;
-  canvas.height = totalH;
-  
-  // Fond blanc
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, W, totalH);
-  
-  // Fausses photos
-  const colors = n === 1 
-    ? ['#1a0f08'] 
-    : ['#1a0f08', '#081015'];
-  
-  colors.forEach((col, i) => {
-    ctx.fillStyle = col;
-    ctx.fillRect(4, 4 + i * (photoH + 4), W - 8, photoH);
-    ctx.fillStyle = 'rgba(201,169,110,.15)';
-    ctx.font = 'bold 24px Georgia';
-    ctx.textAlign = 'center';
-    ctx.fillText('📷', W / 2, 4 + i * (photoH + 4) + photoH / 2 + 10);
-  });
-  
-  // Pied de page
-  if (showEventTitle) {
-    ctx.fillStyle = '#999999';
-    ctx.font = '6px Georgia, serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(state.event.name?.toUpperCase() || 'PHOTOBOOTH', W / 2, totalH - 4);
+function updateFooterText(n) {
+  const footer = document.getElementById('footer-' + n);
+  if (!footer) return;
+  if (showEventTitle && state.event.name) {
+    footer.textContent = state.event.name.toUpperCase() + ' · ' + (state.event.date || '');
+  } else {
+    footer.textContent = '';
   }
 }
 
@@ -649,8 +628,8 @@ function toggleEventTitle() {
     switchEl.style.background = !showEventTitle ? 'var(--amber)' : 'rgba(201,169,110,.25)';
     switchEl.style.left = !showEventTitle ? '22px' : '2px';
   }
-  drawPreview(1);
-  drawPreview(2);
+  updateFooterText(1);
+  updateFooterText(2);
 }
 
 // ─── Camera ────────────────────────────────────────────────────────────────
