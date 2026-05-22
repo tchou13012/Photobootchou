@@ -224,7 +224,7 @@
       <button onclick="selectCount(1)" id="card-1" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;transition:all .3s;background:rgba(201,169,110,.04);border:2.5px solid rgba(201,169,110,.6);border-radius:6px;padding:14px;width:130px;box-shadow:0 4px 16px rgba(0,0,0,.4);transform:scale(1)">
         <div id="preview-1" style="width:110px;height:140px;background:#ffffff;border-radius:2px;box-shadow:0 6px 24px rgba(0,0,0,.6);padding:6px;display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;overflow:hidden;transition:all .3s">
           <div style="width:100%;height:125px;background:linear-gradient(135deg,#1a1208,#2d1f0a);border-radius:1px;display:flex;align-items:center;justify-content:center;color:rgba(201,169,110,.15);font-size:20px">📷</div>
-          <div id="footer-1" style="height:12px;width:100%;display:flex;align-items:center;justify-content:center;font-size:5px;color:#888;font-family:Georgia,serif;letter-spacing:.1em;text-transform:uppercase;overflow:hidden;white-space:nowrap"></div>
+          <div id="footer-1" style="height:12px;width:100%;display:flex;align-items:center;justify-content:center;font-size:5px;color:#888;font-family:Georgia,serif;letter-spacing:.1em;text-transform:uppercase;overflow:hidden;white-space:nowrap;opacity:0.3">PHOTOBOOTH</div>
         </div>
         <div style="text-align:center;transition:all .2s">
           <div style="font-family:var(--serif);color:var(--cream);font-size:13px;font-weight:700">1 photo</div>
@@ -236,7 +236,7 @@
         <div id="preview-2" style="width:110px;height:140px;background:#ffffff;border-radius:2px;box-shadow:0 6px 24px rgba(0,0,0,.6);padding:6px;display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:flex-start;overflow:hidden;transition:all .3s">
           <div style="width:100%;height:60px;background:linear-gradient(135deg,#1a1208,#2d1f0a);border-radius:1px;display:flex;align-items:center;justify-content:center;color:rgba(201,169,110,.15);font-size:16px">📷</div>
           <div style="width:100%;height:60px;background:linear-gradient(135deg,#0a1520,#0d2535);border-radius:1px;display:flex;align-items:center;justify-content:center;color:rgba(201,169,110,.15);font-size:16px">📷</div>
-          <div id="footer-2" style="height:10px;width:100%;display:flex;align-items:center;justify-content:center;font-size:4px;color:#888;font-family:Georgia,serif;letter-spacing:.1em;text-transform:uppercase;overflow:hidden;white-space:nowrap"></div>
+          <div id="footer-2" style="height:10px;width:100%;display:flex;align-items:center;justify-content:center;font-size:4px;color:#888;font-family:Georgia,serif;letter-spacing:.1em;text-transform:uppercase;overflow:hidden;white-space:nowrap;opacity:0.3">PHOTOBOOTH</div>
         </div>
         <div style="text-align:center;transition:all .2s">
           <div style="font-family:var(--serif);color:var(--cream);font-size:13px;font-weight:700">2 photos</div>
@@ -245,16 +245,10 @@
       </button>
     </div>
 
-    <!-- Toggle titre - INVERSÉ (activé = afficher) -->
-    <div onclick="toggleEventTitle()" id="title-toggle" style="display:flex;align-items:center;gap:14px;cursor:pointer;padding:14px 16px;background:rgba(255,255,255,.03);border:2px solid rgba(201,169,110,.4);border-radius:4px;transition:all .25s;user-select:none;width:100%;max-width:360px;margin:0 auto;box-shadow:0 4px 16px rgba(0,0,0,.3)">
-      <div style="width:44px;height:24px;border-radius:12px;background:rgba(201,169,110,.25);position:relative;flex-shrink:0;transition:all .25s">
-        <div id="toggle-switch" style="position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:rgba(201,169,110,.35);transition:left .25s"></div>
-      </div>
-      <div>
-        <div style="font-family:var(--body);color:var(--cream);font-size:13px;font-weight:600">Afficher le titre de l'événement</div>
-        <div style="font-family:var(--body);color:rgba(201,169,110,.6);font-size:11px;font-style:italic;margin-top:3px">En pied de photo</div>
-      </div>
-    </div>
+    <!-- Bouton Confirmer -->
+    <button onclick="startCamera()" style="background:linear-gradient(135deg,var(--amber),var(--amber-dark));color:#1a1208;padding:14px 44px;border-radius:2px;font-family:var(--body);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 6px 28px rgba(201,169,110,.35);border:none;margin-top:12px;transition:all .2s">
+      📷 Confirmer et prendre les photos
+    </button>
   </div>
 
   <!-- ④ CAMERA -->
@@ -572,16 +566,16 @@ function checkPin() {
 let showEventTitle = true;
 
 function selectCount(n) {
-  state.photoCount = n; state.photos = []; state.stripUrl = null;
+  state.photoCount = n;
+  state.photos = [];
+  state.stripUrl = null;
   updateCardUI();
-  startCamera();
 }
 
 function updateCardUI() {
   [1, 2].forEach(n => {
     const card = document.getElementById('card-' + n);
     const preview = document.getElementById('preview-' + n);
-    const footer = document.getElementById('footer-' + n);
     const isSelected = state.photoCount === n;
     
     if (card && preview) {
@@ -596,40 +590,8 @@ function updateCardUI() {
       // Preview grows inside card
       preview.style.width = isSelected ? '140px' : '110px';
       preview.style.height = isSelected ? '170px' : '140px';
-      
-      if (footer) {
-        footer.style.fontSize = isSelected ? '6px' : '5px';
-        footer.style.height = isSelected ? '14px' : '12px';
-        updateFooterText(n);
-      }
     }
   });
-}
-
-function updateFooterText(n) {
-  const footer = document.getElementById('footer-' + n);
-  if (!footer) return;
-  if (showEventTitle && state.event.name) {
-    footer.textContent = state.event.name.toUpperCase() + ' · ' + (state.event.date || '');
-  } else {
-    footer.textContent = '';
-  }
-}
-
-function toggleEventTitle() {
-  showEventTitle = !showEventTitle;
-  const toggle = document.getElementById('title-toggle');
-  const switchEl = document.getElementById('toggle-switch');
-  if (toggle) {
-    toggle.style.background = !showEventTitle ? 'rgba(201,169,110,.1)' : 'rgba(255,255,255,.03)';
-    toggle.style.border = `2px solid ${!showEventTitle ? 'var(--amber)' : 'rgba(201,169,110,.4)'}`;
-  }
-  if (switchEl) {
-    switchEl.style.background = !showEventTitle ? 'var(--amber)' : 'rgba(201,169,110,.25)';
-    switchEl.style.left = !showEventTitle ? '22px' : '2px';
-  }
-  updateFooterText(1);
-  updateFooterText(2);
 }
 
 // ─── Camera ────────────────────────────────────────────────────────────────
