@@ -667,7 +667,17 @@ function capturePhoto() {
     state.photos.push(dataUrl);
     flash.style.display = 'none';
     if (state.photos.length < state.photoCount) {
-      state.shooting = false; document.getElementById('shutter').disabled = false; updateCameraUI();
+      // Si 2 photos, déclenche auto après 2 secondes
+      if (state.photoCount === 2) {
+        setTimeout(() => {
+          state.shooting = false;
+          shoot();
+        }, 2000);
+      } else {
+        state.shooting = false;
+        document.getElementById('shutter').disabled = false;
+        updateCameraUI();
+      }
     } else {
       if (state.stream) state.stream.getTracks().forEach(t => t.stop());
       showPreview();
