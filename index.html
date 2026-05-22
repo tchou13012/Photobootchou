@@ -220,9 +220,9 @@
     </div>
     
     <!-- Cartes photos - avec aperçu en canvas -->
-    <div style="display:flex;gap:24px;align-items:flex-end;justify-content:center;width:100%;min-height:300px">
-      <button onclick="selectCount(1)" id="card-1" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;transition:all .3s;background:rgba(201,169,110,.04);border:2.5px solid rgba(201,169,110,.6);border-radius:6px;padding:14px;width:160px;box-shadow:0 4px 16px rgba(0,0,0,.4)">
-        <div id="card-1-content" style="width:130px;height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+    <div style="display:flex;gap:24px;align-items:flex-end;justify-content:center;width:100%;min-height:320px">
+      <button onclick="selectCount(1)" id="card-1" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;transition:all .3s;background:rgba(201,169,110,.04);border:2.5px solid rgba(201,169,110,.6);border-radius:6px;padding:14px;width:130px;box-shadow:0 4px 16px rgba(0,0,0,.4);transform:scale(1)">
+        <div id="card-1-content" style="width:100px;height:120px;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:all .3s">
           <canvas id="canvas-preview-1" style="max-width:100%;max-height:100%;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.6)"></canvas>
         </div>
         <div style="text-align:center">
@@ -231,8 +231,8 @@
         </div>
       </button>
 
-      <button onclick="selectCount(2)" id="card-2" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;transition:all .3s;background:rgba(201,169,110,.04);border:2.5px solid rgba(201,169,110,.6);border-radius:6px;padding:14px;width:160px;box-shadow:0 4px 16px rgba(0,0,0,.4)">
-        <div id="card-2-content" style="width:130px;height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+      <button onclick="selectCount(2)" id="card-2" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;transition:all .3s;background:rgba(201,169,110,.04);border:2.5px solid rgba(201,169,110,.6);border-radius:6px;padding:14px;width:130px;box-shadow:0 4px 16px rgba(0,0,0,.4);transform:scale(1)">
+        <div id="card-2-content" style="width:100px;height:120px;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:all .3s">
           <canvas id="canvas-preview-2" style="max-width:100%;max-height:100%;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.6)"></canvas>
         </div>
         <div style="text-align:center">
@@ -577,13 +577,21 @@ function selectCount(n) {
 function updateCardUI() {
   [1, 2].forEach(n => {
     const card = document.getElementById('card-' + n);
+    const content = document.getElementById('card-' + n + '-content');
     const isSelected = state.photoCount === n;
     if (card) {
       card.style.background = isSelected ? 'rgba(201,169,110,.1)' : 'rgba(201,169,110,.04)';
       card.style.border = `2.5px solid ${isSelected ? 'var(--amber)' : 'rgba(201,169,110,.6)'}`;
       card.style.boxShadow = isSelected ? '0 12px 40px rgba(201,169,110,.2)' : '0 4px 16px rgba(0,0,0,.4)';
-      card.style.transform = isSelected ? 'scale(1.05) translateY(-4px)' : 'scale(1)';
-      card.style.width = isSelected ? '170px' : '160px';
+      card.style.transform = isSelected ? 'scale(1.15) translateY(-8px)' : 'scale(1)';
+      card.style.width = isSelected ? '180px' : '130px';
+      card.style.padding = isSelected ? '16px' : '14px';
+      
+      // Canvas grows inside
+      if (content) {
+        content.style.width = isSelected ? '150px' : '100px';
+        content.style.height = isSelected ? '180px' : '120px';
+      }
     }
   });
   drawPreview(1);
