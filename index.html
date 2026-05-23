@@ -747,29 +747,8 @@ function capturePhoto() {
 
 // ─── Preview ───────────────────────────────────────────────────────────────
 function showPreview() {
-  // Afficher le tirage blanc avec les photos
-  const strip = document.getElementById('preview-strip');
-  if (!strip) return;
-  
-  strip.innerHTML = '';
-  
-  const photoH = state.photoCount === 1 ? 125 : 60;
-  state.photos.forEach((photo, i) => {
-    const div = document.createElement('div');
-    div.style.cssText = `width:100%;height:${photoH}px;background:url(${photo});background-size:cover;background-position:center;border-radius:1px`;
-    strip.appendChild(div);
-  });
-  
-  // Ajouter pied de page discret
-  const footer = document.createElement('div');
-  footer.style.cssText = `height:14px;width:100%;display:flex;align-items:center;justify-content:center;font-size:5px;color:#999;font-family:Georgia,serif;letter-spacing:.1em;text-transform:uppercase;margin-top:2px`;
-  footer.textContent = 'PHOTOBOOTH';
-  strip.appendChild(footer);
-  
-  // Initialiser les filtres
-  currentFilter = 'color';
-  updateFilterPreviews();
-  showScreen('preview');
+  // Aller directement aux filtres avec aperçu
+  goToFilters();
 }
 
 let currentFilter = 'color';
