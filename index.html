@@ -273,14 +273,60 @@
   <!-- ⑤ PREVIEW -->
   <div class="screen hidden" id="screen-preview" style="gap:32px">
     <div style="text-align:center">
-      <div class="logo-title" style="font-size:clamp(20px,3.2vw,40px)">PHOTOBOOTCHOU</div>
-      <div style="margin-top:14px;font-family:var(--body);color:rgba(245,230,200,.5);font-size:clamp(14px,1.8vw,18px);font-style:italic">Vos photos sont prêtes</div>
+      <div style="font-family:var(--body);color:rgba(245,230,200,.5);font-size:clamp(14px,1.8vw,18px);font-style:italic">Vos photos sont prêtes</div>
     </div>
-    <div id="preview-photos" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center"></div>
+    
+    <!-- Aperçu tirage blanc -->
+    <div style="display:flex;justify-content:center;align-items:center">
+      <div id="preview-strip" style="background:#ffffff;border-radius:3px;padding:8px;box-shadow:0 8px 32px rgba(0,0,0,.6);display:flex;flex-direction:column;gap:4px;width:auto;max-width:180px">
+        <!-- Les photos s'ajoutent dynamiquement ici -->
+      </div>
+    </div>
+
+    <!-- Boutons -->
     <div style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center">
-      <button class="btn btn-primary" onclick="confirmPreview()">✓ Valider</button>
+      <button class="btn btn-primary" onclick="goToFilters()">✓ Valider</button>
       <button class="btn btn-ghost" onclick="retake()">↩ Reprendre</button>
     </div>
+  </div>
+
+  <!-- ⑤.5 FILTRES COULEUR -->
+  <div class="screen hidden" id="screen-filters" style="gap:28px">
+    <div style="text-align:center">
+      <div style="font-family:var(--body);color:rgba(245,230,200,.5);font-size:clamp(14px,1.8vw,18px);font-style:italic">Choisissez le style</div>
+    </div>
+
+    <!-- 3 cartes filtres -->
+    <div style="display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap">
+      <button onclick="selectFilter('color')" id="filter-color" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:10px;transition:all .3s;background:rgba(201,169,110,.04);border:2.5px solid rgba(201,169,110,.6);border-radius:6px;padding:14px;width:140px;box-shadow:0 4px 16px rgba(0,0,0,.4)">
+        <div id="preview-filter-color" style="width:120px;height:150px;background:#ffffff;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+        <div style="text-align:center">
+          <div style="font-family:var(--serif);color:var(--cream);font-size:13px;font-weight:700">Couleur</div>
+          <div style="font-family:var(--body);color:rgba(201,169,110,.6);font-size:10px;font-style:italic;margin-top:2px">Naturel</div>
+        </div>
+      </button>
+
+      <button onclick="selectFilter('bw')" id="filter-bw" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:10px;transition:all .3s;background:rgba(201,169,110,.04);border:2.5px solid rgba(201,169,110,.6);border-radius:6px;padding:14px;width:140px;box-shadow:0 4px 16px rgba(0,0,0,.4)">
+        <div id="preview-filter-bw" style="width:120px;height:150px;background:#ffffff;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+        <div style="text-align:center">
+          <div style="font-family:var(--serif);color:var(--cream);font-size:13px;font-weight:700">N&B</div>
+          <div style="font-family:var(--body);color:rgba(201,169,110,.6);font-size:10px;font-style:italic;margin-top:2px">Classique</div>
+        </div>
+      </button>
+
+      <button onclick="selectFilter('sepia')" id="filter-sepia" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:10px;transition:all .3s;background:rgba(201,169,110,.04);border:2.5px solid rgba(201,169,110,.6);border-radius:6px;padding:14px;width:140px;box-shadow:0 4px 16px rgba(0,0,0,.4)">
+        <div id="preview-filter-sepia" style="width:120px;height:150px;background:#ffffff;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+        <div style="text-align:center">
+          <div style="font-family:var(--serif);color:var(--cream);font-size:13px;font-weight:700">Sépia</div>
+          <div style="font-family:var(--body);color:rgba(201,169,110,.6);font-size:10px;font-style:italic;margin-top:2px">Rétro</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Bouton confirmer -->
+    <button onclick="confirmPreview()" style="background:linear-gradient(135deg,var(--amber),var(--amber-dark));color:#1a1208;padding:14px 44px;border-radius:2px;font-family:var(--body);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 6px 28px rgba(201,169,110,.35);border:none;margin-top:8px">
+      ✓ Continuer
+    </button>
   </div>
 
   <!-- ⑥ ACTIONS -->
@@ -687,11 +733,112 @@ function capturePhoto() {
 
 // ─── Preview ───────────────────────────────────────────────────────────────
 function showPreview() {
-  const w = state.photoCount===1?360:270, h = state.photoCount===1?260:196;
-  document.getElementById('preview-photos').innerHTML = state.photos.map(src =>
-    `<div style="width:${w}px;height:${h}px;border-radius:2px;overflow:hidden;border:1px solid rgba(201,169,110,.25);box-shadow:0 12px 40px rgba(0,0,0,.55)"><img src="${src}" style="width:100%;height:100%;object-fit:cover"/></div>`
-  ).join('');
+  // Afficher le tirage blanc avec les photos
+  const strip = document.getElementById('preview-strip');
+  if (!strip) return;
+  
+  strip.innerHTML = '';
+  
+  const photoH = state.photoCount === 1 ? 125 : 60;
+  state.photos.forEach((photo, i) => {
+    const div = document.createElement('div');
+    div.style.cssText = `width:100%;height:${photoH}px;background:url(${photo});background-size:cover;background-position:center;border-radius:1px`;
+    strip.appendChild(div);
+  });
+  
+  // Ajouter pied de page discret
+  const footer = document.createElement('div');
+  footer.style.cssText = `height:14px;width:100%;display:flex;align-items:center;justify-content:center;font-size:5px;color:#999;font-family:Georgia,serif;letter-spacing:.1em;text-transform:uppercase;margin-top:2px`;
+  footer.textContent = 'PHOTOBOOTH';
+  strip.appendChild(footer);
+  
+  // Initialiser les filtres
+  currentFilter = 'color';
+  updateFilterPreviews();
   showScreen('preview');
+}
+
+let currentFilter = 'color';
+
+function selectFilter(filter) {
+  currentFilter = filter;
+  
+  ['color', 'bw', 'sepia'].forEach(f => {
+    const btn = document.getElementById('filter-' + f);
+    const isSelected = filter === f;
+    if (btn) {
+      btn.style.background = isSelected ? 'rgba(201,169,110,.1)' : 'rgba(201,169,110,.04)';
+      btn.style.border = `2.5px solid ${isSelected ? 'var(--amber)' : 'rgba(201,169,110,.6)'}`;
+      btn.style.boxShadow = isSelected ? '0 12px 40px rgba(201,169,110,.2)' : '0 4px 16px rgba(0,0,0,.4)';
+      btn.style.transform = isSelected ? 'scale(1.08)' : 'scale(1)';
+    }
+  });
+}
+
+function updateFilterPreviews() {
+  ['color', 'bw', 'sepia'].forEach(filterType => {
+    const preview = document.getElementById('preview-filter-' + filterType);
+    if (!preview) return;
+    
+    const canvas = document.createElement('canvas');
+    canvas.width = 120;
+    canvas.height = 150;
+    const ctx = canvas.getContext('2d');
+    
+    // Fond blanc
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, 120, 150);
+    
+    // Dessiner les photos avec le filtre
+    const photoH = state.photoCount === 1 ? 130 : 65;
+    let loaded = 0;
+    
+    state.photos.forEach((photoUrl, i) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        const scale = Math.max(120 / img.width, photoH / img.height);
+        const sw = 120 / scale, sh = photoH / scale;
+        ctx.drawImage(img, (img.width - sw) / 2, (img.height - sh) / 2, sw, sh, 0, 2 + i * (photoH + 2), 120, photoH);
+        
+        loaded++;
+        if (loaded === state.photos.length) {
+          // Appliquer le filtre une fois toutes les images chargées
+          const imgData = ctx.getImageData(0, 0, 120, 150);
+          const data = imgData.data;
+          
+          for (let j = 0; j < data.length; j += 4) {
+            const r = data[j], g = data[j+1], b = data[j+2];
+            
+            if (filterType === 'bw') {
+              const gray = r * 0.299 + g * 0.587 + b * 0.114;
+              data[j] = data[j+1] = data[j+2] = gray;
+            } else if (filterType === 'sepia') {
+              data[j] = Math.min(255, r * 0.393 + g * 0.769 + b * 0.189);
+              data[j+1] = Math.min(255, r * 0.349 + g * 0.686 + b * 0.168);
+              data[j+2] = Math.min(255, r * 0.272 + g * 0.534 + b * 0.131);
+            }
+          }
+          
+          ctx.putImageData(imgData, 0, 0);
+          
+          // Redessiner le pied
+          ctx.fillStyle = '#999999';
+          ctx.font = '4px Georgia, serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('PHOTOBOOTH', 60, 148);
+          
+          preview.style.backgroundImage = `url(${canvas.toDataURL()})`;
+          preview.style.backgroundSize = 'cover';
+        }
+      };
+      img.src = photoUrl;
+    });
+  });
+}
+
+function goToFilters() {
+  showScreen('filters');
 }
 
 function confirmPreview() { showScreen('actions'); }
