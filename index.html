@@ -1023,6 +1023,11 @@ function showToast(msg) {
   setTimeout(hideToast,5000);
 }
 function hideToast() { document.getElementById('toast').classList.remove('show'); }
+
+// ─── Initialisation au chargement ──────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  showScreen('config');
+});
 </script>
 </body>
 </html>
