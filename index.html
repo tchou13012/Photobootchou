@@ -859,6 +859,7 @@ function updateMainPreview() {
   
   state.photos.forEach((photoUrl, i) => {
     const canvas = document.createElement('canvas');
+    const targetRatio = state.photoCount === 1 ? 420/280 : 280/420; // Ratio du tirage
     canvas.width = 256;
     canvas.height = 256;
     const ctx = canvas.getContext('2d');
@@ -866,16 +867,16 @@ function updateMainPreview() {
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.onload = () => {
-      // Calculer le ratio et faire un fit propre
+      // Crop pour remplir complètement le tirage
       const imgRatio = img.width / img.height;
       let sourceX = 0, sourceY = 0, sourceWidth = img.width, sourceHeight = img.height;
       
-      // Crop au ratio cible
-      const targetRatio = 256 / 256;
       if (imgRatio > targetRatio) {
+        // Image trop large, crop horizontal
         sourceWidth = img.height * targetRatio;
         sourceX = (img.width - sourceWidth) / 2;
       } else {
+        // Image trop haute, crop vertical
         sourceHeight = img.width / targetRatio;
         sourceY = (img.height - sourceHeight) / 2;
       }
