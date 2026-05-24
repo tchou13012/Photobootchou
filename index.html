@@ -860,13 +860,27 @@ function updateMainPreview() {
   state.photos.forEach((photoUrl, i) => {
     const canvas = document.createElement('canvas');
     canvas.width = 256;
-    canvas.height = Math.round(photoH * 256 / (280 - 24));
+    canvas.height = 256;
     const ctx = canvas.getContext('2d');
     
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.onload = () => {
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      // Calculer le ratio et faire un fit propre
+      const imgRatio = img.width / img.height;
+      let sourceX = 0, sourceY = 0, sourceWidth = img.width, sourceHeight = img.height;
+      
+      // Crop au ratio cible
+      const targetRatio = 256 / 256;
+      if (imgRatio > targetRatio) {
+        sourceWidth = img.height * targetRatio;
+        sourceX = (img.width - sourceWidth) / 2;
+      } else {
+        sourceHeight = img.width / targetRatio;
+        sourceY = (img.height - sourceHeight) / 2;
+      }
+      
+      ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, 256, 256);
       applyColorFilter(ctx, canvas, currentColor);
       
       const div = document.createElement('div');
