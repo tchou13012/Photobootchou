@@ -858,10 +858,6 @@ function updateMainPreview() {
   const photoH = state.photoCount === 1 ? 260 : 190;
   
   state.photos.forEach((photoUrl, i) => {
-    const img = document.createElement('img');
-    img.src = photoUrl;
-    img.crossOrigin = 'anonymous';
-    
     // Appliquer le filtre couleur via CSS
     let filterCSS = '';
     if (currentColor === 'bw') {
@@ -870,8 +866,10 @@ function updateMainPreview() {
       filterCSS = 'sepia(100%)';
     }
     
-    img.style.cssText = `width:${state.photoCount === 1 ? '48%' : '100%'};height:${photoH}px;object-fit:cover;object-position:center;border-radius:2px;display:block;filter:${filterCSS}`;
-    container.appendChild(img);
+    const div = document.createElement('div');
+    const width = state.photoCount === 1 ? '48%' : '100%';
+    div.style.cssText = `width:${width};height:${photoH}px;background-image:url('${photoUrl}');background-size:cover;background-position:center;border-radius:2px;filter:${filterCSS}`;
+    container.appendChild(div);
   });
   
   // Cadre
