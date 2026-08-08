@@ -832,36 +832,29 @@ function updateMainPreview() {
     container.appendChild(div);
   });
   
-  // Cadre avec images PNG
-  const frameEl = document.getElementById('preview-frame');
-  if (frameEl) {
-    if (currentFrame === 'none') {
-      frameEl.style.border = 'none';
-      frameEl.style.backgroundImage = 'none';
-      preview.style.padding = '12px';
-    } else if (currentFrame === 'party') {
-      frameEl.style.backgroundImage = 'url(./frame-party.png)';
-      frameEl.style.backgroundSize = 'cover';
-      frameEl.style.backgroundPosition = 'center';
-      frameEl.style.border = 'none';
-      preview.style.padding = '10px';
-    } else if (currentFrame === 'carnival') {
-      frameEl.style.backgroundImage = 'url(./frame-carnival.png)';
-      frameEl.style.backgroundSize = 'cover';
-      frameEl.style.backgroundPosition = 'center';
-      frameEl.style.border = 'none';
-      preview.style.padding = '10px';
-    } else if (currentFrame === 'balloons') {
-      frameEl.style.backgroundImage = 'url(./frame-balloons.png)';
-      frameEl.style.backgroundSize = 'cover';
-      frameEl.style.backgroundPosition = 'center';
-      frameEl.style.border = 'none';
-      preview.style.padding = '10px';
-    } else if (currentFrame === 'film') {
-      frameEl.style.border = '8px solid #222';
-      frameEl.style.backgroundImage = 'none';
-      preview.style.padding = '10px';
-    }
+  // Cadre avec images PNG - en background du container
+  if (currentFrame === 'none') {
+    preview.style.backgroundImage = 'none';
+    preview.style.padding = '12px';
+  } else if (currentFrame === 'party') {
+    preview.style.backgroundImage = 'url(./frame-party.png)';
+    preview.style.backgroundSize = 'cover';
+    preview.style.backgroundPosition = 'center';
+    preview.style.padding = '10px';
+  } else if (currentFrame === 'carnival') {
+    preview.style.backgroundImage = 'url(./frame-carnival.png)';
+    preview.style.backgroundSize = 'cover';
+    preview.style.backgroundPosition = 'center';
+    preview.style.padding = '10px';
+  } else if (currentFrame === 'balloons') {
+    preview.style.backgroundImage = 'url(./frame-balloons.png)';
+    preview.style.backgroundSize = 'cover';
+    preview.style.backgroundPosition = 'center';
+    preview.style.padding = '10px';
+  } else if (currentFrame === 'film') {
+    preview.style.backgroundImage = 'none';
+    preview.style.border = '8px solid #222';
+    preview.style.padding = '10px';
   }
   
   // Titre
