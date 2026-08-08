@@ -291,79 +291,41 @@
   </div>
 
   <!-- ⑤.5 FILTRES COULEUR + CADRES -->
-  <div class="screen hidden" id="screen-filters" style="gap:24px;padding:16px;display:flex;flex-direction:column;align-items:center;width:100%">
+  <div class="screen hidden" id="screen-filters" style="gap:20px;padding:16px;display:flex;flex-direction:column;align-items:center">
     
-    <!-- COULEURS : 2 mini + 1 grand -->
-    <div style="width:100%;display:flex;gap:16px;justify-content:center;align-items:flex-end;flex-wrap:wrap">
-      <!-- Mini couleur 1 -->
-      <button onclick="selectColor('color')" id="color-btn-color" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .3s;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;padding:10px;width:110px">
-        <div style="width:100px;height:120px;background:#ffffff;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.5);overflow:hidden" id="mini-color-1">
-          <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1208,#2d1f0a);display:flex;align-items:center;justify-content:center;color:rgba(201,169,110,.2);font-size:28px">📷</div>
-        </div>
-        <div style="font-family:var(--serif);color:var(--cream);font-size:11px;font-weight:700">Couleur</div>
-      </button>
-
-      <!-- Mini couleur 2 -->
-      <button onclick="selectColor('bw')" id="color-btn-bw" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .3s;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;padding:10px;width:110px">
-        <div style="width:100px;height:120px;background:#ffffff;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.5);overflow:hidden;filter:grayscale(100%)" id="mini-color-2">
-          <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1208,#2d1f0a);display:flex;align-items:center;justify-content:center;color:rgba(201,169,110,.2);font-size:28px">📷</div>
-        </div>
-        <div style="font-family:var(--serif);color:var(--cream);font-size:11px;font-weight:700">N&B</div>
-      </button>
-
-      <!-- Mini couleur 3 -->
-      <button onclick="selectColor('sepia')" id="color-btn-sepia" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .3s;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;padding:10px;width:110px">
-        <div style="width:100px;height:120px;background:#ffffff;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.5);overflow:hidden;filter:sepia(100%)" id="mini-color-3">
-          <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1208,#2d1f0a);display:flex;align-items:center;justify-content:center;color:rgba(201,169,110,.2);font-size:28px">📷</div>
-        </div>
-        <div style="font-family:var(--serif);color:var(--cream);font-size:11px;font-weight:700">Sépia</div>
-      </button>
+    <!-- COULEURS -->
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button onclick="selectColor('color')" id="color-btn-color" style="cursor:pointer;padding:10px 16px;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;font-family:var(--serif);color:var(--cream);font-size:12px;font-weight:700;transition:all .3s">Couleur</button>
+      <button onclick="selectColor('bw')" id="color-btn-bw" style="cursor:pointer;padding:10px 16px;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;font-family:var(--serif);color:var(--cream);font-size:12px;font-weight:700;transition:all .3s">N&B</button>
+      <button onclick="selectColor('sepia')" id="color-btn-sepia" style="cursor:pointer;padding:10px 16px;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;font-family:var(--serif);color:var(--cream);font-size:12px;font-weight:700;transition:all .3s">Sépia</button>
     </div>
 
-    <!-- GRAND APERÇU 5x7.5cm -->
-    <div style="display:flex;justify-content:center;margin:8px 0">
-      <div id="main-preview" style="width:280px;height:420px;background:#ffffff;border-radius:4px;box-shadow:0 12px 48px rgba(0,0,0,.7);overflow:hidden;position:relative;display:flex;flex-direction:column;padding:12px;gap:8px;box-sizing:border-box">
-        <div id="preview-photos-container" style="flex:1;display:flex;flex-direction:column;gap:6px;overflow:hidden;border-radius:2px"></div>
-        <div id="preview-title-footer" style="text-align:center;font-size:8px;color:#666;font-family:Georgia,serif;letter-spacing:.1em;text-transform:uppercase;height:16px;overflow:hidden"></div>
-      </div>
+    <!-- GRAND APERÇU -->
+    <div id="main-preview" style="width:280px;height:420px;background:#ffffff;border-radius:4px;box-shadow:0 12px 48px rgba(0,0,0,.7);overflow:hidden;position:relative;display:flex;flex-direction:column;padding:12px;gap:8px;box-sizing:border-box">
+      <div id="preview-photos-container" style="flex:1;display:flex;flex-direction:column;gap:4px;overflow:hidden;border-radius:2px"></div>
+      <div id="preview-title-footer" style="text-align:center;font-size:8px;color:#666;font-family:Georgia,serif;letter-spacing:.1em;text-transform:uppercase;height:14px;overflow:hidden"></div>
+      <div id="preview-frame" style="position:absolute;inset:12px;border-radius:2px;pointer-events:none;box-sizing:border-box"></div>
     </div>
 
-    <!-- CADRES : 3 aperçus -->
-    <div style="width:100%;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:8px 0">
-      <button onclick="selectFrame('none')" id="frame-btn-none" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .3s;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;padding:10px;width:110px">
-        <div style="width:100px;height:120px;background:#ffffff;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.5);overflow:hidden">
-          <div style="width:100%;height:100%;border:2px solid #ccc;display:flex;align-items:center;justify-content:center;color:#999;font-size:10px;font-family:var(--serif)">AUCUN</div>
-        </div>
-        <div style="font-family:var(--serif);color:var(--cream);font-size:11px;font-weight:700">Aucun</div>
-      </button>
-
-      <button onclick="selectFrame('gold')" id="frame-btn-gold" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .3s;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;padding:10px;width:110px">
-        <div style="width:100px;height:120px;background:#ffffff;border:12px solid #c9a96e;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.5);overflow:hidden">
-          <div style="width:100%;height:100%;background:#f0f0f0"></div>
-        </div>
-        <div style="font-family:var(--serif);color:var(--cream);font-size:11px;font-weight:700">Or</div>
-      </button>
-
-      <button onclick="selectFrame('black')" id="frame-btn-black" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .3s;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;padding:10px;width:110px">
-        <div style="width:100px;height:120px;background:#ffffff;border:12px solid #1a1208;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.5);overflow:hidden">
-          <div style="width:100%;height:100%;background:#f0f0f0"></div>
-        </div>
-        <div style="font-family:var(--serif);color:var(--cream);font-size:11px;font-weight:700">Noir</div>
-      </button>
+    <!-- CADRES (5 options) -->
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:600px">
+      <button onclick="selectFrame('none')" id="frame-btn-none" style="cursor:pointer;padding:10px 16px;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;font-family:var(--serif);color:var(--cream);font-size:12px;font-weight:700;transition:all .3s">Aucun</button>
+      <button onclick="selectFrame('party')" id="frame-btn-party" style="cursor:pointer;padding:10px 16px;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;font-family:var(--serif);color:var(--cream);font-size:12px;font-weight:700;transition:all .3s">Party</button>
+      <button onclick="selectFrame('carnival')" id="frame-btn-carnival" style="cursor:pointer;padding:10px 16px;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;font-family:var(--serif);color:var(--cream);font-size:12px;font-weight:700;transition:all .3s">Carnaval</button>
+      <button onclick="selectFrame('balloons')" id="frame-btn-balloons" style="cursor:pointer;padding:10px 16px;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;font-family:var(--serif);color:var(--cream);font-size:12px;font-weight:700;transition:all .3s">Ballons</button>
+      <button onclick="selectFrame('film')" id="frame-btn-film" style="cursor:pointer;padding:10px 16px;background:rgba(201,169,110,.04);border:2px solid rgba(201,169,110,.6);border-radius:4px;font-family:var(--serif);color:var(--cream);font-size:12px;font-weight:700;transition:all .3s">Pellicule</button>
     </div>
 
-    <!-- TITRE ÉVÉNEMENT -->
-    <div onclick="toggleEventTitleFilter()" id="title-toggle-filter" style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:12px;background:rgba(255,255,255,.03);border:2px solid rgba(201,169,110,.4);border-radius:4px;transition:all .25s;user-select:none;max-width:400px">
-      <div style="width:40px;height:22px;border-radius:11px;background:rgba(201,169,110,.25);position:relative;flex-shrink:0;transition:all .25s">
+    <!-- TITRE -->
+    <div onclick="toggleEventTitleFilter()" id="title-toggle-filter" style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:12px;background:rgba(255,255,255,.03);border:2px solid rgba(201,169,110,.4);border-radius:4px;transition:all .25s;user-select:none">
+      <div style="width:40px;height:22px;border-radius:11px;background:rgba(201,169,110,.25);position:relative;flex-shrink:0">
         <div id="toggle-switch-filter" style="position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:rgba(201,169,110,.35);transition:left .25s"></div>
       </div>
-      <div>
-        <div style="font-family:var(--body);color:var(--cream);font-size:12px;font-weight:600">Afficher le titre de l'événement</div>
-      </div>
+      <div style="font-family:var(--body);color:var(--cream);font-size:12px;font-weight:600">Afficher le titre</div>
     </div>
 
-    <!-- Bouton valider -->
-    <button onclick="confirmFilters()" style="background:linear-gradient(135deg,var(--amber),var(--amber-dark));color:#1a1208;padding:13px 40px;border-radius:2px;font-family:var(--body);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 6px 28px rgba(201,169,110,.35);border:none;margin-top:8px">
+    <!-- BOUTON VALIDER -->
+    <button onclick="confirmFilters()" style="background:linear-gradient(135deg,var(--amber),var(--amber-dark));color:#1a1208;padding:13px 40px;border-radius:2px;font-family:var(--body);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:12px;cursor:pointer;box-shadow:0 6px 28px rgba(201,169,110,.35);border:none">
       ✓ Valider
     </button>
   </div>
@@ -821,7 +783,7 @@ function updateColorButtons() {
 }
 
 function updateFrameButtons() {
-  ['none', 'gold', 'black'].forEach(f => {
+  ['none', 'party', 'carnival', 'balloons', 'film'].forEach(f => {
     const btn = document.getElementById('frame-btn-' + f);
     if (btn) {
       const isSelected = currentFrame === f;
@@ -869,16 +831,25 @@ function updateMainPreview() {
     container.appendChild(div);
   });
   
-  // Cadre
-  if (currentFrame === 'gold') {
-    preview.style.border = '12px solid #c9a96e';
-    preview.style.padding = '10px';
-  } else if (currentFrame === 'black') {
-    preview.style.border = '12px solid #1a1208';
-    preview.style.padding = '10px';
-  } else {
-    preview.style.border = 'none';
-    preview.style.padding = '12px';
+  // Cadre (placeholders - à remplacer par images PNG)
+  const frameEl = document.getElementById('preview-frame');
+  if (frameEl) {
+    if (currentFrame === 'none') {
+      frameEl.style.border = 'none';
+      preview.style.padding = '12px';
+    } else if (currentFrame === 'party') {
+      frameEl.style.border = '8px solid #9933ff';
+      preview.style.padding = '10px';
+    } else if (currentFrame === 'carnival') {
+      frameEl.style.border = '8px solid #00ccff';
+      preview.style.padding = '10px';
+    } else if (currentFrame === 'balloons') {
+      frameEl.style.border = '8px solid #ff1493';
+      preview.style.padding = '10px';
+    } else if (currentFrame === 'film') {
+      frameEl.style.border = '8px solid #222';
+      preview.style.padding = '10px';
+    }
   }
   
   // Titre
