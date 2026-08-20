@@ -805,10 +805,10 @@ function updateMainPreview() {
   
   // Adapter dimensions selon nombre de photos
   if (state.photoCount === 1) {
-    // PORTRAIT aussi pour 1 photo
-    preview.style.width = '280px';
-    preview.style.height = '420px';
-    container.style.flexDirection = 'column';
+    // PAYSAGE pour 1 photo
+    preview.style.width = '420px';
+    preview.style.height = '280px';
+    container.style.flexDirection = 'row';
   } else {
     // PORTRAIT pour 2 photos
     preview.style.width = '280px';
@@ -816,7 +816,7 @@ function updateMainPreview() {
     container.style.flexDirection = 'column';
   }
   
-  const photoH = state.photoCount === 1 ? 390 : 190;
+  const photoH = state.photoCount === 1 ? 256 : 190;
   
   state.photos.forEach((photoUrl, i) => {
     const div = document.createElement('div');
@@ -833,21 +833,23 @@ function updateMainPreview() {
   });
   
   // Cadre avec images PNG - réduire la taille des photos pour voir le cadre
+  const maxH = state.photoCount === 1 ? 200 : 320;
+  
   if (currentFrame === 'none') {
     preview.style.backgroundImage = 'none';
     preview.style.padding = '12px';
-    container.style.maxHeight = '390px';
+    container.style.maxHeight = 'none';
   } else if (currentFrame === 'party' || currentFrame === 'carnival' || currentFrame === 'balloons') {
     preview.style.backgroundImage = `url(./frame-${currentFrame}.png)`;
     preview.style.backgroundSize = 'cover';
     preview.style.backgroundPosition = 'center';
     preview.style.padding = '12px';
-    container.style.maxHeight = '320px';
+    container.style.maxHeight = maxH + 'px';
   } else if (currentFrame === 'film') {
     preview.style.backgroundImage = 'none';
     preview.style.border = '8px solid #222';
     preview.style.padding = '12px';
-    container.style.maxHeight = '390px';
+    container.style.maxHeight = 'none';
   }
   
   // Titre
