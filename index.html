@@ -32,7 +32,7 @@
     .screen { position: absolute; inset: 0; display: flex; flex-direction: column;
       align-items: center; justify-content: center; padding: clamp(18px,3.5vw,52px);
       animation: fadeIn .5s ease both; max-width: 900px; margin: 0 auto; width: 100%; }
-    #preview-frame { background-size: 100% 100% !important; background-repeat: no-repeat !important; background-position: center !important; }
+    #preview-frame { position: absolute; inset: 0; border-radius: 2px; pointer-events: none; z-index: 10; background-size: contain !important; background-repeat: no-repeat !important; background-position: center !important; }
     .screen.hidden { display: none !important; }
 
     @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
@@ -832,24 +832,26 @@ function updateMainPreview() {
     container.appendChild(div);
   });
   
-  // Cadre avec images PNG - réduire la taille des photos pour voir le cadre
-  const maxH = state.photoCount === 1 ? 200 : 320;
-  
-  if (currentFrame === 'none') {
-    preview.style.backgroundImage = 'none';
-    preview.style.padding = '12px';
-    container.style.maxHeight = 'none';
-  } else if (currentFrame === 'party' || currentFrame === 'carnival' || currentFrame === 'balloons') {
-    preview.style.backgroundImage = `url(./frame-${currentFrame}.png)`;
-    preview.style.backgroundSize = 'cover';
-    preview.style.backgroundPosition = 'center';
-    preview.style.padding = '12px';
-    container.style.maxHeight = maxH + 'px';
-  } else if (currentFrame === 'film') {
-    preview.style.backgroundImage = 'none';
-    preview.style.border = '8px solid #222';
-    preview.style.padding = '12px';
-    container.style.maxHeight = 'none';
+  // Cadre avec images PNG - overlay par-dessus la photo
+  const frameEl = document.getElementById('preview-frame');
+  if (frameEl) {
+    if (currentFrame === 'none') {
+      frameEl.style.backgroundImage = 'none';
+      preview.style.backgroundImage = 'none';
+    } else if (currentFrame === 'party') {
+      frameEl.style.backgroundImage = 'url(./frame-party.png)';
+      preview.style.backgroundImage = 'none';
+    } else if (currentFrame === 'carnival') {
+      frameEl.style.backgroundImage = 'url(./frame-carnival.png)';
+      preview.style.backgroundImage = 'none';
+    } else if (currentFrame === 'balloons') {
+      frameEl.style.backgroundImage = 'url(./frame-balloons.png)';
+      preview.style.backgroundImage = 'none';
+    } else if (currentFrame === 'film') {
+      frameEl.style.backgroundImage = 'none';
+      preview.style.border = '8px solid #222';
+      preview.style.backgroundImage = 'none';
+    }
   }
   
   // Titre
