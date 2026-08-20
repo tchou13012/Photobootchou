@@ -832,29 +832,24 @@ function updateMainPreview() {
     container.appendChild(div);
   });
   
-  // Cadre avec images PNG - en background du container
+  // Cadre avec images PNG - réduire la taille des photos pour voir le cadre
+  const container = document.getElementById('preview-photos-container');
+  
   if (currentFrame === 'none') {
     preview.style.backgroundImage = 'none';
     preview.style.padding = '12px';
-  } else if (currentFrame === 'party') {
-    preview.style.backgroundImage = 'url(./frame-party.png)';
+    container.style.maxHeight = '390px';
+  } else if (currentFrame === 'party' || currentFrame === 'carnival' || currentFrame === 'balloons') {
+    preview.style.backgroundImage = `url(./frame-${currentFrame}.png)`;
     preview.style.backgroundSize = 'cover';
     preview.style.backgroundPosition = 'center';
-    preview.style.padding = '50px';
-  } else if (currentFrame === 'carnival') {
-    preview.style.backgroundImage = 'url(./frame-carnival.png)';
-    preview.style.backgroundSize = 'cover';
-    preview.style.backgroundPosition = 'center';
-    preview.style.padding = '50px';
-  } else if (currentFrame === 'balloons') {
-    preview.style.backgroundImage = 'url(./frame-balloons.png)';
-    preview.style.backgroundSize = 'cover';
-    preview.style.backgroundPosition = 'center';
-    preview.style.padding = '50px';
+    preview.style.padding = '12px';
+    container.style.maxHeight = '320px';
   } else if (currentFrame === 'film') {
     preview.style.backgroundImage = 'none';
     preview.style.border = '8px solid #222';
     preview.style.padding = '12px';
+    container.style.maxHeight = '390px';
   }
   
   // Titre
